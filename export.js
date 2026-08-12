@@ -31,9 +31,7 @@ async function gerarExcel() {
   wb.creator = "Sistema Plano de Ação";
   wb.created = new Date();
 
-  const ws = wb.addWorksheet("Plano de Ação", {
-    views: [{ state: "frozen", ySplit: 9 }]
-  });
+  const ws = wb.addWorksheet("Plano de Ação");
 
   // Larguras de coluna (iguais à planilha original)
   ws.columns = [
