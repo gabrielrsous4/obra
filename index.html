@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plano de Ação - Gestão de Desempenho</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="app">
+
+  <div class="folha">
+    <!-- Cabeçalho -->
+    <div class="cabecalho">
+      <div class="logo-box"><img src="assets/logo.png" alt="Logo ADN"></div>
+      <div class="titulo-box"><h1>PLANO DE AÇÃO<br>(Gestão de Desempenho)</h1></div>
+      <div class="codigo-box">
+        <div>CÓDIGO</div>
+        <div id="campoFormCodigo">FORM.</div>
+        <div>VERSÃO</div>
+        <div id="campoVersao">00</div>
+      </div>
+    </div>
+
+    <!-- Barra REUNIÃO / DIRETORIA / DEPARTAMENTO -->
+    <div class="barra escura">
+      <div>
+        <span class="campo-label">REUNIÃO</span>
+      </div>
+      <div>
+        <span class="campo-label">DIRETORIA</span>
+      </div>
+      <div>
+        <span class="campo-label">DEPARTAMENTO</span>
+      </div>
+    </div>
+    <div class="barra clara">
+      <div>
+        <select id="tipoReuniao">
+          <option value="Alinhamento">Alinhamento</option>
+          <option value="Desempenho" selected>Desempenho</option>
+        </select>
+      </div>
+      <div>
+        <select id="diretoria"></select>
+      </div>
+      <div>
+        <select id="departamento"></select>
+      </div>
+    </div>
+
+    <div class="barra escura titulo-acao">
+      <div>PLANO DE AÇÃO</div>
+    </div>
+
+    <!-- Tabela -->
+    <div class="tabela-wrap">
+      <table class="plano" id="tabelaPlano">
+        <colgroup>
+          <col class="col-data">
+          <col class="col-area">
+          <col class="col-assunto">
+          <col class="col-detalhe">
+          <col class="col-obs">
+          <col class="col-resp">
+          <col class="col-dtprevista">
+          <col class="col-dtreprog">
+          <col class="col-dtconclusao">
+          <col class="col-status">
+          <col class="col-acoes">
+        </colgroup>
+        <thead>
+          <tr>
+            <th>DATA REGISTRO</th>
+            <th>ÁREA/OBRA</th>
+            <th>ASSUNTO:</th>
+            <th>DETALHAMENTO AÇÃO</th>
+            <th>OBSERVAÇÕES<br>(COMENTÁRIOS SOBRE O ANDAMENTO)</th>
+            <th>RESPONSÁVEIS</th>
+            <th>DATA PREVISTA TÉRMINO</th>
+            <th>DATA REPROGRAMADA</th>
+            <th>DATA CONCLUSÃO</th>
+            <th>STATUS</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="corpoTabela">
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="status-legenda">
+    <strong>Legenda de status:</strong>
+    <span><i class="leg-amarelo"></i> Em Andamento</span>
+    <span><i class="leg-vermelho"></i> Atrasado</span>
+    <span><i class="leg-verde"></i> Concluído</span>
+  </div>
+
+  <div class="toolbar">
+    <button class="btn btn-add" id="btnAddLinha">+ Adicionar Ação</button>
+    <span class="contador" id="contadorLinhas"></span>
+    <div class="spacer"></div>
+    <button class="btn btn-xlsx" id="btnExportXlsx">Gerar Planilha (Excel)</button>
+    <button class="btn btn-pdf" id="btnExportPdf">Gerar PDF</button>
+    <button class="btn btn-clear" id="btnLimpar">Limpar Tudo</button>
+  </div>
+
+  <footer>
+    Sistema Plano de Ação — os dados ficam salvos automaticamente neste navegador (localStorage).
+  </footer>
+</div>
+
+<script src="vendor/exceljs.min.js"></script>
+<script src="vendor/jspdf.umd.min.js"></script>
+<script src="vendor/jspdf.plugin.autotable.min.js"></script>
+<script src="listas.js"></script>
+<script src="app.js"></script>
+<script src="export.js"></script>
+</body>
+</html>
