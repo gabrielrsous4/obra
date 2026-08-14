@@ -212,21 +212,29 @@ async function gerarExcel() {
     setData("I", linha.dataReprogramada);
     setData("J", linha.dataConclusao);
 
+    const status = calcularStatus(linha);
     const kCell = ws.getCell(`K${r}`);
-    kCell.value = { formula: `IF(ISBLANK(E${r}),"",IF(ISBLANK(J${r}),IF(H${r}-TODAY()>=0,"Em Andamento","Atrasado"),"Concluído"))`, result: calcularStatus(linha) };
-    kCell.font = { name: FONTE, size: 11, bold: true };
+    kCell.value = { formula: `IF(ISBLANK(E${r}),"",IF(ISBLANK(J${r}),IF(H${r}-TODAY()>=0,"Em Andamento","Atrasado"),"Concluído"))`, result: status };
+    kCell.font = {
+      name: FONTE, size: 11, bold: true,
+      color: { argb: (status === "Atrasado" || status === "Concluído") ? "FFFFFFFF" : "FF000000" }
+    };
     kCell.alignment = { horizontal: "center", vertical: "middle" };
     kCell.border = { top: { style: "thin" }, left: { style: "thin" }, bottom: { style: "thin" }, right: { style: "thin" } };
+    // Preenchimento fixo (garante a cor certa em qualquer programa, mesmo sem suporte a formatação condicional)
+    if (status === "Em Andamento") kCell.fill = { type: "pattern", pattern: "solid", fgColor: { argb: AMARELO } };
+    else if (status === "Atrasado") kCell.fill = { type: "pattern", pattern: "solid", fgColor: { argb: VERMELHO } };
+    else if (status === "Concluído") kCell.fill = { type: "pattern", pattern: "solid", fgColor: { argb: VERDE } };
   });
 
   const ultimaLinha = primeiraLinha + state.linhas.length - 1;
 
-  // Menu suspenso de status (igual ao original, coexiste com a fórmula)
+  // Menu suspenso de status — valores idênticos aos que a fórmula pode gerar
   ws.dataValidations.add(`K${primeiraLinha}:K${ultimaLinha}`, {
-    type: "list", allowBlank: true, formulae: ['"Não Iniciado,Em andamento,Concluído"']
+    type: "list", allowBlank: true, formulae: ['"Em Andamento,Atrasado,Concluído"']
   });
 
-  // Formatação condicional (mesmas cores do arquivo original)
+  // Formatação condicional (reforça a cor caso o usuário edite datas depois, no próprio Excel)
   ws.addConditionalFormatting({
     ref: `K${primeiraLinha}:K${ultimaLinha}`,
     rules: [
